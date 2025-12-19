@@ -50,7 +50,13 @@ export function PeopleTable({
           const motherCell = !person.motherName ? (
             '-'
           ) : mother ? (
-            <PersonLink person={mother} onClick={e => e.stopPropagation()} />
+            <PersonLink
+              person={mother}
+              onClick={e => {
+                e.stopPropagation();
+                onSelect?.(mother.slug);
+              }}
+            />
           ) : (
             person.motherName
           );
@@ -58,7 +64,13 @@ export function PeopleTable({
           const fatherCell = !person.fatherName ? (
             '-'
           ) : father ? (
-            <PersonLink person={father} onClick={e => e.stopPropagation()} />
+            <PersonLink
+              person={father}
+              onClick={e => {
+                e.stopPropagation();
+                onSelect?.(father.slug);
+              }}
+            />
           ) : (
             person.fatherName
           );
@@ -75,7 +87,7 @@ export function PeopleTable({
               <td>
                 <PersonLink person={person} />
               </td>
-              <td>{person.sex}</td>
+              <td>{person.sex === 'female' ? 'f' : 'm'}</td>
               <td>{person.born}</td>
               <td>{person.died}</td>
               <td>{motherCell}</td>
