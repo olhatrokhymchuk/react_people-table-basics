@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Loader } from './Loader';
 import { PeopleTable } from './PeopleTable';
 import { Person } from '../types/Person';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 interface RawPerson extends Omit<Person, 'sex'> {
   sex: 'm' | 'f';
@@ -19,11 +19,12 @@ function normalize(raw: RawPerson[]): Person[] {
 }
 
 export function PeoplePage(): JSX.Element {
+  const navigate = useNavigate();
   const { slug } = useParams<{ slug?: string }>();
+  const [selectedSlug, setSelectedSlug] = useState<string | undefined>(slug);
   const [loading, setLoading] = useState<boolean>(false);
   const [people, setPeople] = useState<Person[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [selectedSlug, setSelectedSlug] = useState<string | undefined>(slug);
   const url =
     'https://mate-academy.github.io/react_people-table/api/people.json';
 
@@ -72,7 +73,7 @@ export function PeoplePage(): JSX.Element {
         <PeopleTable
           people={people}
           selectedSlug={selectedSlug}
-          onSelect={setSelectedSlug}
+          onSelect={newSlug => navigate(`/people/${newSlug}`)}
         />
       </>
     );
