@@ -40,6 +40,8 @@ export function PeoplePage(): JSX.Element {
   useEffect(() => {
     if (slug) {
       setSelectedSlug(slug);
+    } else {
+      setSelectedSlug(undefined);
     }
   }, [slug]);
 
